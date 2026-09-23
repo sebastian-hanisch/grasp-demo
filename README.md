@@ -1,9 +1,9 @@
 # GRASP – eine Lieferrunde, viele randomisiert-gierige Neuanfänge – Streamlit-Demo
 
-**[→ Demo live ausprobieren](#)** (Deploy offen)
+**[→ Demo live ausprobieren](https://sebastianhanisch-grasp-demo.streamlit.app/)**
 
 Sechstes Stück der **Trajektorien-Metaheuristiken-Linie** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning":
-dieselbe Rundtour wie in der [hill-climbing-demo](../hill-climbing-demo), der [simulated-annealing-demo](../simulated-annealing-demo), der [iterated-local-search-demo](../iterated-local-search-demo), der [variable-neighborhood-search-demo](../variable-neighborhood-search-demo) und der [tabu-search-demo](../tabu-search-demo) (ein Depot, n Kundenstopps in einem 100 × 100-km-Gebiet), dieselbe untere Schranke.
+dieselbe Rundtour wie in der [hill-climbing-demo](https://sebastianhanisch-hill-climbing-demo.streamlit.app/), der [simulated-annealing-demo](https://sebastianhanisch-simulated-annealing-demo.streamlit.app/), der [iterated-local-search-demo](https://sebastianhanisch-iterated-local-search-demo.streamlit.app/), der [variable-neighborhood-search-demo](https://sebastianhanisch-variable-neighborhood-search-demo.streamlit.app/) und der [tabu-search-demo](https://sebastianhanisch-tabu-search-demo.streamlit.app/) (ein Depot, n Kundenstopps in einem 100 × 100-km-Gebiet), dieselbe untere Schranke.
 
 **Einordnung in die Reihe:** **GRASP** (Greedy Randomized Adaptive Search Procedure, Feo & Resende 1989/1995) ist ein direktes Kind von Hill Climbing, wie die fünf vorigen Stücke - aber es sucht nicht von EINER Startlösung aus weiter. Jeder Neustart **konstruiert** eine neue Tour: an jedem Schritt werden die `k` nächsten unbesuchten Stopps als Restricted Candidate List (RCL) gebildet, einer davon wird **zufällig** gewählt (statt immer der nächste - das wäre `nearest_neighbor_tour`, exakt der Grenzfall k=1). Danach folgt ein normaler 2-opt-Abstieg. Viele unabhängige Konstruktion-plus-Abstieg-Durchläufe, die beste Tour zählt - strukturell fast identisch zu Hill Climbing mit Neustarts, nur mit einem **informierten statt rein zufälligen** Startgenerator.
 ```
@@ -51,7 +51,7 @@ Kein Startlösung-Regler (anders als bei den Geschwister-Demos - jede GRASP-Iter
 
 ## Modell und Verfahren
 
-- **Instanz, Nachbarschaften, Abstieg, Schranke** (`grasp_scenario.py`, `grasp_tour.py`): wortgleiche Kopien aus der [hill-climbing-demo](../hill-climbing-demo) (per Test gegen eingefrorene Werte) - GRASP braucht dieselbe volle, vektorisierte 2-opt-Bewertung wie Tabu Search, keine Kandidatenliste/Doppelbrücke der ILS/VNS-Familie.
+- **Instanz, Nachbarschaften, Abstieg, Schranke** (`grasp_scenario.py`, `grasp_tour.py`): wortgleiche Kopien aus der [hill-climbing-demo](https://sebastianhanisch-hill-climbing-demo.streamlit.app/) (per Test gegen eingefrorene Werte) - GRASP braucht dieselbe volle, vektorisierte 2-opt-Bewertung wie Tabu Search, keine Kandidatenliste/Doppelbrücke der ILS/VNS-Familie.
 - **Randomisierte gierige Konstruktion** (`grasp_construct.py`): direkte Verallgemeinerung von `nearest_neighbor_tour` - an jedem Schritt die `k` nächsten unbesuchten Knoten als RCL, einer davon zufällig gewählt. Bei k=1 exakt `nearest_neighbor_tour` (Regressionstest gegen die bereits geprüfte Funktion, keine eigene Herleitung).
 - **Neustart-Schleife** (`grasp_algorithm.py`): konstruieren → 2-opt-Abstieg (voller Rescan, Restbudget begrenzt) → beste Tour merken, wiederholen bis das Budget erschöpft ist. Die Konstruktion selbst zählt nicht zum Budget (dieselbe Konvention wie der Zufallsstart bei Hill Climbing mit Neustarts).
 - **Hill Climbing mit rein zufälligen Neustarts** (`grasp_evaluation.py`): dieselbe Schleife, aber mit einem uninformierten Zufallsstart statt der randomisierten Konstruktion - die faire Vergleichsgröße bei gleichem Budget.
