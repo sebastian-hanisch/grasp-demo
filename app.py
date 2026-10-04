@@ -122,7 +122,7 @@ with st.sidebar:
     budget = st.select_slider(
         "Budget (bewertete Nachbarn)", options=list(C.BUDGETS), key="budget_select", format_func=_fmt_int,
         help="Bei 10-50 Tausend passt nur ein Neustart, GRASP gewinnt trotzdem klar gegen einen zufälligen Start (6.93 % gegen 7.88 %) - die Konstruktion selbst ist besser. Der Vorteil ist am größten bei "
-             "100-200 Tausend (5.43/4.34 % gegen 7.88/4.88 %) - bei sehr großem Budget (500 Tausend+) zieht reiner Zufall durch schiere Menge an Neustarts leicht vorbei (2.02 % gegen 1.87 % bei 2 Millionen).",
+             "100-200 Tausend (5.43/4.34 % gegen 7.88/4.88 %) - bei sehr großem Budget (500 Tausend+) holt reiner Zufall durch schiere Menge an Neustarts auf und liegt bei 500 Tausend und 2 Millionen leicht vorn (2.02 % gegen 1.87 % bei 2 Millionen; bei 1 Million noch knapp dahinter: 2.46 % gegen 2.54 %).",
     )
     seed = st.number_input("Zufalls-Seed der Instanz", *bounds("seed_input"), key="seed_input", step=1)
     st.button("🎲 Neue Instanz generieren", width="stretch", on_click=randomize_seed, help="Würfelt einen neuen Seed für die Lage der Stopps.")
@@ -288,7 +288,7 @@ if st.session_state.get("budget_on"):
     st.table({"Budget": [_fmt_int(r["value"]) for r in rows_b], "GRASP (%)": [f"{r['gap']:.2f}" for r in rows_b],
               "Neustarts, zufällig (%)": [f"{r['hcr']:.2f}" for r in rows_b], "nächster Nachbar (%)": [f"{r['nn']:.2f}" for r in rows_b], "Neustarts": [f"{r['starts']:.1f}" for r in rows_b]})
     st.caption("Mittel über 5 feste Instanzen × 3 Ketten (60 Stopps, RCL-Größe 3). Bei 10-50 Tausend passt nur ein Neustart - GRASP gewinnt trotzdem klar gegen einen zufälligen Start (**6.93 %** gegen **7.88 %**), "
-               "die Konstruktion selbst ist besser. Der Vorteil ist am größten bei 100-200 Tausend (**5.43/4.34 %** gegen **7.88/4.88 %**). Bei sehr großem Budget (500 Tausend+) zieht reiner Zufall durch schiere Menge an Neustarts leicht vorbei (**2.02 %** gegen **1.87 %** bei 2 Millionen).")
+               "die Konstruktion selbst ist besser. Der Vorteil ist am größten bei 100-200 Tausend (**5.43/4.34 %** gegen **7.88/4.88 %**). Bei sehr großem Budget (500 Tausend+) holt reiner Zufall durch schiere Menge an Neustarts auf und liegt bei 500 Tausend und 2 Millionen leicht vorn (**2.02 %** gegen **1.87 %** bei 2 Millionen; bei 1 Million noch knapp dahinter: **2.46 %** gegen **2.54 %**).")
 
 st.markdown("---")
 
@@ -327,13 +327,13 @@ st.markdown(
 |---|---|---|
 | **Genug Budget für mehr als einen Neustart** | Bei 10-50 Tausend Vorschlägen (60 Stopps) passt nur EIN Neustart: das Ergebnis bleibt bei **6.93 %** stehen (kein Fortschritt durch Wiederholung) - schlägt aber trotzdem einen zufälligen Start (**7.88 %**) durch die bessere Konstruktion selbst. Erst ab 100 Tausend (mehrere Neustarts) verbessert sich das Ergebnis weiter (**5.43 %**). | Kleineres n, größeres Budget, oder ein billigeres Verfahren (**Kandidatenliste**: ILS/VNS) |
 | **Die RCL-Größe passt zur Instanzgröße** | Bei kleinem n (20-30): k=1 verliert dramatisch (2.51/5.54 % gegen 0.05/0.57 % bei k=2) - Neustarts sind ohne Zufall wirkungslos. Bei großem n (100-150) DREHT sich das Bild: k=1 gewinnt (7.20/7.45 % gegen 9.03-9.91 % bei k≥2) - kaum Budget je Neustart übrig, ein vollständiger gieriger Abstieg schlägt mehrere abgebrochene randomisierte. | Kein direkter Nachfolger; dieselbe Lehre wie SA's Temperatur, ILS' Störstärke, VNS' k_max, Tabu Search's Tenure - aber hier zusätzlich n-abhängig |
-| **Nicht zu viel Budget** | Ab 500 Tausend zieht reiner Zufall durch schiere Menge an Neustarts leicht vorbei (**3.32 %** gegen **2.93 %**, bei 2 Millionen **2.02 %** gegen **1.87 %**) - der Vorteil der informierten Konstruktion ist ein MITTLERES Budgetfenster, kein durchgehender. | (kein Nachfolger nötig - bei genug Neustarts verschwimmt der Unterschied zwischen Verfahren) |
+| **Nicht zu viel Budget** | Ab 500 Tausend holt reiner Zufall durch schiere Menge an Neustarts auf und liegt bei 500 Tausend (**3.32 %** gegen **2.93 %**) und bei 2 Millionen (**2.02 %** gegen **1.87 %**) leicht vorn, bei 1 Million knapp dahinter (**2.46 %** gegen **2.54 %**) - der Vorteil der informierten Konstruktion ist ein MITTLERES Budgetfenster, kein durchgehender. | (kein Nachfolger nötig - bei genug Neustarts verschwimmt der Unterschied zwischen Verfahren) |
 | **Jeder Neustart ist unabhängig** | GRASP wirft nach jedem Neustart die Tour komplett weg und konstruiert neu - anders als ILS/VNS, die den vorherigen Fortschritt gezielt stören statt zu verwerfen. Das kostet bei großem n Budget, das andere Verfahren gezielter einsetzen. | **ILS/VNS** (Kick statt Neukonstruktion) |
 """
 )
 st.caption(
     "Die Nachbarn der Trajektorien-Metaheuristiken-Linie: der Nachbarschafts-Zweig (Lin-Kernighan, VLSN, VRP-Nachbarschaften) ist eine "
-    "andere Antwort auf dieselbe Schwäche der Wurzel; ALNS braucht eine CVRP-Instanz und ist deshalb hier noch nicht gebaut."
+    "andere Antwort auf dieselbe Schwäche der Wurzel; ALNS braucht eine CVRP-Instanz und steht deshalb in einer eigenen Demo ([alns-demo](https://github.com/sebastian-hanisch/alns-demo))."
 )
 
 st.markdown("---")
@@ -373,6 +373,6 @@ Implementiert in `grasp_construct.py` (die randomisierte gierige Konstruktion), 
 st.markdown("---")
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Trajektorien-Metaheuristiken: HC bis ALNS](https://sebastianhanisch.net/konzepte-trajektorien-metaheuristiken.html)."
 )

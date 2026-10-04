@@ -24,7 +24,7 @@ Die **RCL-Größe** hat einen Sweet Spot bei k=2-3 - aber dieser Sweet Spot ist 
 | **RCL-Größe k** | ⚠️ 1 / 2 / 3 / 5 / 10 / 20: **7.30 / 4.35 / 4.34 / 4.99 / 5.83 / 4.64 %** - Sweet Spot bei 2-3, aber n-abhängig (s. u.) |
 | **RCL bei kleiner Instanz (30 Stopps)** | ❌ k=1: **5.54 %**, k=2: **0.57 %** - Neustarts sind ohne Zufall wirkungslos |
 | **RCL bei großer Instanz (150 Stopps)** | ✅ k=1: **7.45 %** schlägt k=2-5 (**9.03-9.91 %**) - kaum Budget je Neustart, ein vollständiger gieriger Abstieg gewinnt |
-| **Budget** | ⚠️ Bei 10-50 Tausend Vorschlägen: **6.93 %** (nur 1 Neustart, GRASP gewinnt trotzdem gegen HCR **7.88 %**). Bei 100 / 200 Tausend: **5.43 / 4.34 %** (GRASP klar besser). Bei 500 Tausend / 1 / 2 Millionen: **3.32 / 2.46 / 2.02 %** gegen HCR **2.93 / 2.54 / 1.87 %** - hier liegt reiner Zufall leicht VORN |
+| **Budget** | ⚠️ Bei 10-50 Tausend Vorschlägen: **6.93 %** (nur 1 Neustart, GRASP gewinnt trotzdem gegen HCR **7.88 %**). Bei 100 / 200 Tausend: **5.43 / 4.34 %** (GRASP klar besser). Bei 500 Tausend / 1 / 2 Millionen: **3.32 / 2.46 / 2.02 %** gegen HCR **2.93 / 2.54 / 1.87 %** - hier liegt reiner Zufall bei 500 Tausend und 2 Millionen leicht VORN, bei 1 Million knapp dahinter |
 | **Größe** | ❌ 200 Stopps, 1 Million Vorschläge (nur 1 Neustart): **8.60 %** gegen **9.48 %** für Hill Climbing mit Neustarts - die gierige Konstruktion gewinnt auch ohne Neustart-Vorteil |
 
 ## Was die Demo zeigt
@@ -105,6 +105,4 @@ pytest tests/ -v
 
 ---
 
-Teil des [Operations-Research-Demo-Portfolios](https://sebastianhanisch.net/demos.html) von
-[Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning.
-Interesse an einer maßgeschneiderten Lösung? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html).
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Trajektorien-Metaheuristiken: HC bis ALNS](https://sebastianhanisch.net/konzepte-trajektorien-metaheuristiken.html).
